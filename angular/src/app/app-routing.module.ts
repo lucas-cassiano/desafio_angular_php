@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './notFound/notFound.component';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'registros',
+    component: NotFoundComponent,
   },
   {
     path: 'registros',
@@ -18,6 +18,10 @@ const routes: Routes = [
       import('./colaborador/colaborador.module').then(
         (m) => m.ColaboradorModule
       ),
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ValidarComponent } from './validar/validar.component';
 import { RegistrarComponent } from './registrar/registrar.component';
+import { NotFoundComponent } from '../notFound/notFound.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'validar',
     component: ValidarComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 
