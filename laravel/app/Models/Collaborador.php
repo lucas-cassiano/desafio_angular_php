@@ -8,12 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Collaborador extends Model
 {
     use HasFactory;
+    protected $table = 'collaborador';
 
     protected $fillable = [
-        'nome',
+        'name',
         'email',
         'cpf',
         'conhecimentos',
         'status'
     ];
+
+    public function scopeOrderByNome($query)
+    {
+        return $query->orderBy('name');
+    }
 }
