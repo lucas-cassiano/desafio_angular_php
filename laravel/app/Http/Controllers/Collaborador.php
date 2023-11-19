@@ -21,7 +21,7 @@ class Collaborador extends Controller
                 'conhecimentos' => 'required|array|min:1|max:3',
             ];
 
-             $mensagens = [
+            $mensagens = [
                 'nome.required' => 'O campo nome é obrigatório.',
                 'nome.string' => 'O campo nome deve ser uma string.',
                 'nome.max' => 'O campo nome deve ter no máximo 100 caracteres.',
@@ -45,7 +45,12 @@ class Collaborador extends Controller
 
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
+            }else if($this->validarCPF($request->input('cpf'))==false){
+                return response()->json(['errors' => [
+                    'cpf' => ['O campo cpf é inválido.']
+                ]], 422);
             }
+
             $collaborador = [
                 'nome' => $request->input('nome'),
                 'email' => $request->input('email'),
@@ -96,7 +101,60 @@ class Collaborador extends Controller
         return response()->json($array);
     }
 
-    public function collaboradorStatus(){
-        return response()->json([]);
+    public function collaboradorStatus($cpf){
+        try{
+
+            $cpf = preg_replace('/[^0-9]/', '', $cpf);
+
+            $collaborador = model::where('cpf', $cpf)->first();
+
+            if($collaborador){
+
+                $collaborador->status = true;
+                $collaborador->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Updated contributor'
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 400);
+            
+        }catch(QueryException $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Error when validating'
+            ], 400);
+        }
+    }
+
+    private function validarCPF($cpf) {
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
+
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+
+        for ($i = 9, $j = 0, $soma1 = 0, $soma2 = 0; $i > 0; $i--, $j++) {
+            $soma1 += $cpf[$j] * $i;
+            $soma2 += $cpf[$j] * ($i + 1);
+        }
+
+        $digito1 = (($soma1 % 11) < 2) ? 0 : 11 - ($soma1 % 11);
+        $digito2 = (($soma2 % 11) < 2) ? 0 : 11 - ($soma2 % 11);
+
+        if ($digito1 == $cpf[9] && $digito2 == $cpf[10]) {
+            return true;
+        }
+
+        return false;
     }
 }

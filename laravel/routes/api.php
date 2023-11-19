@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/cadastro', [Collaborador::class, 'cadastro']);
 Route::get('/collaborators', [Collaborador::class, 'collaborators']);
-Route::patch('/collaborador', [Collaborador::class, 'collaboradorStatus']);
+Route::patch('/collaborador/{cpf}', [Collaborador::class, 'collaboradorStatus']);
