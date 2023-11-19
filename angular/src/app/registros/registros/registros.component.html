@@ -32,7 +32,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of data">
+    <tr *ngFor="let item of data" (click)="handleRegistro(item.nome)">
       <th scope="row">{{ item.n }}</th>
       <td>{{ item.nome }}</td>
       <td>{{ item.cpf }}</td>

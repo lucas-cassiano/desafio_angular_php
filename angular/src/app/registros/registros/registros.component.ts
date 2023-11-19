@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,6 +8,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registros.component.css'],
 })
 export class RegistrosComponent {
+  constructor(private router: Router) {}
+
   inputData: any = '';
 
   dadosApi = [
@@ -16,6 +19,10 @@ export class RegistrosComponent {
   ];
 
   data = this.dadosApi;
+
+  handleRegistro(nome: string) {
+    this.router.navigate([nome + '/validar']);
+  }
 
   handleInput(event: Event): void {
     if (event.target instanceof HTMLInputElement) {
