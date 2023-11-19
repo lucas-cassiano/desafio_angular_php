@@ -1,1 +1,77 @@
-<p>registrar works!kkjjk</p>
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="nome">Nome</label>
+      <input
+        [value]="form.nome"
+        (input)="handleInput($event, 'nome')"
+        required
+        type="text"
+        maxlength="100"
+        class="form-control"
+        id="nome"
+        placeholder="Nome"
+      />
+    </div>
+    <div class="form-group col-md-3">
+      <label for="email">Email</label>
+      <input
+        maxlength="100"
+        [value]="form.email"
+        (input)="handleInput($event, 'email')"
+        type="email"
+        required
+        class="form-control"
+        id="email"
+        placeholder="Email"
+      />
+    </div>
+    <div class="form-group col-md-2.5">
+      <label for="cpf">CPF</label>
+      <input
+        maxlength="14"
+        [value]="form.cpf"
+        (input)="handleInput($event, 'cpf')"
+        type="text"
+        required
+        class="form-control"
+        id="cpf"
+        placeholder="CPF"
+      />
+    </div>
+    <div class="form-group col-md-2.5">
+      <label for="celular">Celular</label>
+      <input
+        [value]="form.celular"
+        (input)="handleInput($event, 'celular')"
+        type="text"
+        class="form-control"
+        id="celular"
+        placeholder="Celular"
+      />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="conhecimentos">Seus conhecimentos</label>
+      <select
+        required
+        multiple
+        class="form-control"
+        (change)="limitarSelecoes($event)"
+        id="conhecimentos"
+      >
+        <option>Git</option>
+        <option>React</option>
+        <option>PHP</option>
+        <option>NodeJS</option>
+        <option>DevOps</option>
+        <option>Banco de Dados</option>
+        <option>Typescript</option>
+      </select>
+    </div>
+  </div>
+  <button (click)="handleClick()" type="button" class="btn btn-primary">
+    Enviar
+  </button>
+</form>
