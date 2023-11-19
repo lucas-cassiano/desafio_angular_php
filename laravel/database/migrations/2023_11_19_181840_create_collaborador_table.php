@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('collaborador', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('nome', 100);
             $table->string('email', 100);
             $table->string('cpf', 11)->unique();
             $table->string('celular', 11)->nullable();
             $table->string('conhecimentos');
-            $table->boolean('status');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

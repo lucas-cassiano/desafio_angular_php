@@ -11,7 +11,7 @@ class Collaborador extends Model
     protected $table = 'collaborador';
 
     protected $fillable = [
-        'name',
+        'nome',
         'email',
         'cpf',
         'conhecimentos',
@@ -20,6 +20,6 @@ class Collaborador extends Model
 
     public function scopeOrderByNome($query)
     {
-        return $query->orderBy('name');
+        return $query->orderBy('nome');
     }
 }
