@@ -94,6 +94,7 @@ class Collaborador extends Controller
                 'email' => $dados['email'],
                 'celular' => $dados['celular'] == null ? '' : $dados['celular'],
                 'conhecimentos' => $dados['conhecimentos'] != '' ? explode(',', $dados['conhecimentos']) : [],
+                'status' => $dados['status'] == 1 ? 'VALIDADO': 'NÃO VALIDADO',
                 'criacao' => date('d/m/Y H:i:s', strtotime($dados['created_at']))
             ]);
         }
