@@ -1,1 +1,43 @@
-<p>Entrou no registro</p>
+<div class="input-group mb-3">
+  <input
+    id="inputData"
+    [value]="inputData"
+    (input)="handleInput($event)"
+    type="text"
+    class="form-control"
+    placeholder="Digite um item para buscar"
+    aria-label="Recipient's username"
+    aria-describedby="button-addon2"
+    required
+  />
+  <div class="input-group-append">
+    <button
+      class="btn btn-outline-secondary"
+      (click)="handleClick()"
+      type="button"
+      id="button-addon2"
+    >
+      Buscar
+    </button>
+  </div>
+</div>
+
+<table class="table table-bordered table-hover table-lg">
+  <thead>
+    <tr>
+      <th scope="col">Nº</th>
+      <th scope="col">Nome</th>
+      <th scope="col">CPF</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <th scope="row">{{ item.n }}</th>
+      <td>{{ item.nome }}</td>
+      <td>{{ item.cpf }}</td>
+      <td>{{ item.status }}</td>
+    </tr>
+    <tr></tr>
+  </tbody>
+</table>
