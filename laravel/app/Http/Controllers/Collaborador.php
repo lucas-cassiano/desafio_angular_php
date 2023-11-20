@@ -102,17 +102,44 @@ class Collaborador extends Controller
         return response()->json($array);
     }
 
-    public function collaboradorStatus($cpf){
+    public function collaborador($nome){
+
+        $collaborador = model::where('nome', $nome)->first();
+
+        if($collaborador){
+            return response()->json([
+                'nome' => $collaborador['nome'],
+                'cpf' => $collaborador['cpf'],
+                'email' => $collaborador['email'],
+                'celular' => $collaborador['celular'],
+                'conhecimentos' => $collaborador['conhecimentos'] != '' ? explode(',', $collaborador['conhecimentos']) : [],
+                'status' => $collaborador['status'] == 1 ? 'VALIDADO': 'NÃO VALIDADO',
+                'criacao' => date('d/m/Y H:i:s', strtotime($collaborador['created_at']))
+            ]);
+        }
+
+        return response()->json([
+            'data' => []
+        ]);
+    }
+
+    public function collaboradorStatus($cpf, $status){
         try{
 
             $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
             $collaborador = model::where('cpf', $cpf)->first();
 
+           
+
             if($collaborador){
 
-                $collaborador->status = true;
+                $collaborador->status = $status == 1 ? true : false;
                 $collaborador->save();
+
+                return response()->json([
+                   $collaborador 
+                ]);
 
                 return response()->json([
                     'success' => true,
