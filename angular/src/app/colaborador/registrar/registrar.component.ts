@@ -53,6 +53,12 @@ export class RegistrarComponent {
         icon: 'warning',
       });
       return;
+    } else if (this.form.conhecimentos.length == 0) {
+      Swal.fire({
+        title: 'O campo conhecimentos deve ter pelo menos 1 opção',
+        icon: 'warning',
+      });
+      return;
     } else if (this.form.conhecimentos.length > 3) {
       Swal.fire({
         title: 'O campo conhecimentos não pode ter mais de 3 opções',
