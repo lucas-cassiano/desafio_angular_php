@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { RegistrosService } from '../services/registros.service';
 
 @Component({
   selector: 'app-registros',
@@ -8,15 +9,21 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registros.component.css'],
 })
 export class RegistrosComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private registrosService: RegistrosService
+  ) {
+    this.inicializarDados();
+  }
+
+  async inicializarDados() {
+    this.dadosApi = await this.registrosService.list();
+    this.data = this.dadosApi;
+  }
 
   inputData: any = '';
 
-  dadosApi = [
-    { n: 1, nome: 'Item 1', cpf: '12022544463', status: 'VALIDADO' },
-    { n: 2, nome: 'Item 2', cpf: '12022544464', status: 'NÃO VALIDADO' },
-    { n: 3, nome: 'Item 3', cpf: '12022544465', status: 'NÃO VALIDADO' },
-  ];
+  dadosApi: any = [];
 
   data = this.dadosApi;
 
