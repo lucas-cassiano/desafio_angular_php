@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ColaboradorService } from '../services/colaborador.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-validar',
@@ -43,6 +44,11 @@ export class ValidarComponent {
       this.cpf,
       status ? 1 : 0
     );
+
+    Swal.fire({
+      title: 'Registro alterado com sucesso!',
+      icon: 'success',
+    });
 
     if (result) {
       this.status = this.status == 'VALIDADO' ? 'NÃO VALIDADO' : 'VALIDADO';

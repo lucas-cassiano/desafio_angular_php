@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
+import { ColaboradorService } from '../services/colaborador.service';
 
 @Component({
   selector: 'app-registrar',
@@ -7,11 +8,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registrar.component.css'],
 })
 export class RegistrarComponent {
+  constructor(private colaboradorService: ColaboradorService) {}
+
   form = {
     nome: '',
     email: '',
     cpf: '',
-    celular: '',
+    celular: null,
     conhecimentos: [],
   };
 
@@ -31,32 +34,53 @@ export class RegistrarComponent {
     }
   }
 
-  handleClick() {
+  async handleClick() {
     if (this.form.nome.length == 0 || this.form.nome.length > 100) {
       Swal.fire({
         title: 'Campo nome inválido',
         icon: 'warning',
       });
+      return;
     } else if (this.validarEmail(this.form.email) == false) {
       Swal.fire({
         title: 'Campo email inválido',
         icon: 'warning',
       });
+      return;
     } else if (this.validarCPF(this.form.cpf) == false) {
       Swal.fire({
         title: 'Campo cpf inválido',
         icon: 'warning',
       });
-    } else if (this.form.celular.length > 0 && this.form.celular.length < 14) {
-      Swal.fire({
-        title: 'Campo celular inválido',
-        icon: 'warning',
-      });
+      return;
     } else if (this.form.conhecimentos.length > 3) {
       Swal.fire({
         title: 'O campo conhecimentos não pode ter mais de 3 opções',
         icon: 'warning',
       });
+      return;
+    }
+
+    try {
+      await this.colaboradorService.registrar(
+        this.form.nome,
+        this.form.email,
+        this.form.cpf,
+        this.form.celular,
+        this.form.conhecimentos
+      );
+
+      Swal.fire({
+        title: 'Registro cadastrado com sucesso!',
+        icon: 'success',
+      });
+    } catch (erro: any) {
+      if (erro.status == 422) {
+        Swal.fire({
+          title: 'Parametros invalidos ou CPF já existe no sistema.',
+          icon: 'error',
+        });
+      }
     }
   }
 
