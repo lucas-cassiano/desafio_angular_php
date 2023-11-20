@@ -1,0 +1,68 @@
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="nome">Nome</label>
+      <input
+        type="text"
+        maxlength="100"
+        value="{{ nome }}"
+        class="form-control"
+        id="nome"
+      />
+    </div>
+    <div class="form-group col-md-3">
+      <label for="email">Email</label>
+      <input
+        maxlength="100"
+        type="email"
+        value="{{ email }}"
+        class="form-control"
+        id="email"
+      />
+    </div>
+    <div class="form-group col-md-2.5">
+      <label for="cpf">CPF</label>
+      <input
+        maxlength="14"
+        type="text"
+        value="{{ cpf }}"
+        class="form-control"
+        id="cpf"
+      />
+    </div>
+    <div class="form-group col-md-2.5">
+      <label for="celular">Celular</label>
+      <input
+        type="text"
+        class="form-control"
+        value="{{ celular }}"
+        id="celular"
+      />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="conhecimentos">Seus conhecimentos</label>
+      <select required multiple class="form-control" id="conhecimentos">
+        <option *ngFor="let item of conhecimentos">{{ item }}</option>
+      </select>
+    </div>
+  </div>
+  <button
+    *ngIf="status == 'NÃO VALIDADO'"
+    (click)="handleValidar(true)"
+    type="button"
+    class="btn btn-success"
+  >
+    VALIDAR
+  </button>
+  <button
+    *ngIf="status == 'VALIDADO'"
+    (click)="handleValidar(false)"
+    style="margin-left: 5px"
+    type="button"
+    class="btn btn-danger"
+  >
+    NÃO VALIDAR
+  </button>
+</form>
