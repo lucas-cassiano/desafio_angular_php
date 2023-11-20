@@ -17,7 +17,7 @@ class Collaborador extends Controller
                 'nome' => 'required|string|max:100',
                 'email' => 'required|string|email|max:100',
                 'cpf' => 'required|string|max:15|unique:collaborador,cpf',
-                'celular' => 'string|max:15',
+                'celular' => 'nullable|string|max:15',
                 'conhecimentos' => 'required|array|min:1|max:3',
             ];
 
@@ -46,6 +46,9 @@ class Collaborador extends Controller
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }else if($this->validarCPF($request->input('cpf'))==false){
+                return response()->json([
+                   $request->input('cpf')
+                ]);
                 return response()->json(['errors' => [
                     'cpf' => ['O campo cpf é inválido.']
                 ]], 422);
@@ -161,8 +164,9 @@ class Collaborador extends Controller
     }
 
     private function validarCPF($cpf) {
-        $cpf = preg_replace('/[^0-9]/', '', $cpf);
-
+ 
+        $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+        
         if (strlen($cpf) != 11) {
             return false;
         }
@@ -171,18 +175,16 @@ class Collaborador extends Controller
             return false;
         }
 
-        for ($i = 9, $j = 0, $soma1 = 0, $soma2 = 0; $i > 0; $i--, $j++) {
-            $soma1 += $cpf[$j] * $i;
-            $soma2 += $cpf[$j] * ($i + 1);
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
         }
+        return true;
 
-        $digito1 = (($soma1 % 11) < 2) ? 0 : 11 - ($soma1 % 11);
-        $digito2 = (($soma2 % 11) < 2) ? 0 : 11 - ($soma2 % 11);
-
-        if ($digito1 == $cpf[9] && $digito2 == $cpf[10]) {
-            return true;
-        }
-
-        return false;
     }
 }
