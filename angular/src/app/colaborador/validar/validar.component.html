@@ -2,40 +2,63 @@
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="nome">Nome</label>
-      <input type="text" maxlength="100" class="form-control" id="nome" />
+      <input
+        type="text"
+        maxlength="100"
+        value="{{ nome }}"
+        class="form-control"
+        id="nome"
+      />
     </div>
     <div class="form-group col-md-3">
       <label for="email">Email</label>
-      <input maxlength="100" type="email" class="form-control" id="email" />
+      <input
+        maxlength="100"
+        type="email"
+        value="{{ email }}"
+        class="form-control"
+        id="email"
+      />
     </div>
     <div class="form-group col-md-2.5">
       <label for="cpf">CPF</label>
-      <input maxlength="14" type="text" class="form-control" id="cpf" />
+      <input
+        maxlength="14"
+        type="text"
+        value="{{ cpf }}"
+        class="form-control"
+        id="cpf"
+      />
     </div>
     <div class="form-group col-md-2.5">
       <label for="celular">Celular</label>
-      <input type="text" class="form-control" id="celular" />
+      <input
+        type="text"
+        class="form-control"
+        value="{{ celular }}"
+        id="celular"
+      />
     </div>
   </div>
   <div class="form-row">
     <div class="form-group col-md-4">
       <label for="conhecimentos">Seus conhecimentos</label>
       <select required multiple class="form-control" id="conhecimentos">
-        <option>Git</option>
-        <option>React</option>
-        <option>PHP</option>
-        <option>NodeJS</option>
-        <option>DevOps</option>
-        <option>Banco de Dados</option>
-        <option>Typescript</option>
+        <option *ngFor="let item of conhecimentos">{{ item }}</option>
       </select>
     </div>
   </div>
-  <button (click)="handleValidar()" type="button" class="btn btn-success">
+  <button
+    *ngIf="status == 'NÃO VALIDADO'"
+    (click)="handleValidar(true)"
+    type="button"
+    class="btn btn-success"
+  >
     VALIDAR
   </button>
   <button
-    (click)="handleNotValidar()"
+    *ngIf="status == 'VALIDADO'"
+    (click)="handleValidar(false)"
     style="margin-left: 5px"
     type="button"
     class="btn btn-danger"
